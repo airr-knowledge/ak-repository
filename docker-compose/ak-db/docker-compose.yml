@@ -1,0 +1,33 @@
+# AK Docker Orchestration
+
+services:
+    ak-db:
+        image: postgres:16
+        container_name: ak-db
+        restart: always
+        env_file: ./../../.env
+        volumes:
+            - ${DATA_ROOT}/pgdata:/var/lib/postgresql/data
+        networks:
+            - ak-db-network
+        healthcheck:
+            test: pg_isready -h ak-db -d postgres -U postgres
+            interval: 10s
+            timeout: 3s
+            retries: 3
+
+    adminer:
+        image: adminer
+        restart: always
+        ports:
+            - 8080:8080
+        networks:
+            - ak-db-network
+        depends_on:
+            ak-db:
+                condition: service_healthy
+
+networks:
+    ak-db-network:
+        name: ak-db-network
+        driver: bridge
