@@ -27,6 +27,35 @@ services:
             ak-db:
                 condition: service_healthy
 
+    ak-redis:
+        container_name: ak-redis
+        image: redis:7.2.0-alpine
+        restart: always
+        networks:
+            - ak-db-network
+        ports:
+            - "6379:6379"
+        command: redis-server --save 60 1 --loglevel warning --appendonly yes
+        volumes:
+            - ./../../redis:/data
+
+    ak-web-api:
+        build: ./../../ak-web-api
+        container_name: ak-web-api
+        env_file: ./../../.env
+        ports:
+            - "8050:8050"
+        image: airrknowledge/ak-web-api
+        depends_on:
+            ak-redis:
+                condition: service_started
+            ak-db:
+                condition: service_healthy
+        networks:
+            - ak-db-network
+#        volumes:
+#            - ${DATA_ROOT}:/vdjZ
+
 networks:
     ak-db-network:
         name: ak-db-network
