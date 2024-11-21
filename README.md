@@ -12,7 +12,7 @@ antigens and epitopes bound by AIR.
 
 ## Components
 
-VDJServer Repository is currently composed of 2 separate components:
+AIRR Knowledge Repository is currently composed of 2 separate components:
 
  * [ak-db]: Postgresql database.
  * [ak-web-api](https://github.com/airr-knowledge/ak-web-api.git): AIRR Knowledge Web API.
