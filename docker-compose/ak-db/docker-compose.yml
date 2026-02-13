@@ -6,8 +6,11 @@ services:
         container_name: ak-db
         restart: always
         env_file: ./../../.env
+        shm_size: 10gb
         volumes:
             - ${DATA_ROOT}/pgdata:/var/lib/postgresql/data
+#            - ${IMPORT_DATA}/ak-data-import:/iedb_data
+#            - ${IMPORT_DATA}/vdjserver-adc-cache:/adc_data
         networks:
             - ak-db-network
         healthcheck:
@@ -20,7 +23,7 @@ services:
         image: adminer
         restart: always
         ports:
-            - 8080:8080
+            - 127.0.0.1:8080:8080
         networks:
             - ak-db-network
         depends_on:
@@ -34,7 +37,7 @@ services:
         networks:
             - ak-db-network
         ports:
-            - "6379:6379"
+            - "127.0.0.1:6379:6379"
         command: redis-server --save 60 1 --loglevel warning --appendonly yes
         volumes:
             - ./../../redis:/data
@@ -44,7 +47,7 @@ services:
         container_name: ak-web-api
         env_file: ./../../.env
         ports:
-            - "8050:8050"
+            - "127.0.0.1:8050:8050"
         image: airrknowledge/ak-web-api
         depends_on:
             ak-redis:
@@ -53,6 +56,8 @@ services:
                 condition: service_healthy
         networks:
             - ak-db-network
+
+
 #        volumes:
 #            - ${DATA_ROOT}:/vdjZ
 
