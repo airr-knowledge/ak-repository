@@ -1,0 +1,13 @@
+[Unit]
+Description=AIRR Knowledge web services
+Documentation=https://github.com/airr-knowledge/ak-repository
+After=docker.service
+Requires=docker.service
+
+[Service]
+Restart=always
+ExecStart=docker compose -f /mnt/data1/akadmin/ak-repository/docker-compose/ak-web/docker-compose.yml up
+ExecStop=docker compose -f /mnt/data1/akadmin/ak-repository/docker-compose/ak-web/docker-compose.yml down
+
+[Install]
+WantedBy=multi-user.target
