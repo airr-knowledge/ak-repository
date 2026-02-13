@@ -1,5 +1,7 @@
 # AK Docker Orchestration
 
+# AIRR Knowledge database services
+
 services:
     ak-db:
         image: postgres:16
@@ -41,25 +43,6 @@ services:
         command: redis-server --save 60 1 --loglevel warning --appendonly yes
         volumes:
             - ./../../redis:/data
-
-    ak-web-api:
-        build: ./../../ak-web-api
-        container_name: ak-web-api
-        env_file: ./../../.env
-        ports:
-            - "127.0.0.1:8050:8050"
-        image: airrknowledge/ak-web-api
-        depends_on:
-            ak-redis:
-                condition: service_started
-            ak-db:
-                condition: service_healthy
-        networks:
-            - ak-db-network
-
-
-#        volumes:
-#            - ${DATA_ROOT}:/vdjZ
 
 networks:
     ak-db-network:

@@ -1,0 +1,23 @@
+# AK Docker Orchestration
+
+# AIRR Knowledge web services
+
+services:
+    ak-web-api:
+        build: ./../../ak-web-api
+        container_name: ak-web-api
+        env_file: ./../../.env
+        ports:
+            - "127.0.0.1:8050:8050"
+        image: airrknowledge/ak-web-api
+        networks:
+            - ak-db-network
+
+
+#        volumes:
+#            - ${DATA_ROOT}:/vdjZ
+
+networks:
+    ak-db-network:
+        name: ak-db-network
+        external: true
