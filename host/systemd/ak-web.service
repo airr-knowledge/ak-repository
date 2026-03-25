@@ -1,8 +1,8 @@
 [Unit]
 Description=AIRR Knowledge web services
 Documentation=https://github.com/airr-knowledge/ak-repository
-After=docker.service
-Requires=docker.service
+After=ak-db.service
+Requires=ak-db.service
 
 [Service]
 Restart=always
