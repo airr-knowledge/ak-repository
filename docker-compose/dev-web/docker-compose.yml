@@ -1,0 +1,26 @@
+# AK Docker Orchestration
+
+# AIRR Knowledge web services
+
+# Development web API, to prevent conflict with production API
+# should have different image name, port and env file
+
+services:
+    ak-web-api-dev:
+        build: ./../../ak-web-api
+        container_name: ak-web-api-dev
+        env_file: ./../../.dev-env
+        ports:
+            - "127.0.0.1:8060:8060"
+        image: airrknowledge/ak-web-api:dev
+        networks:
+            - ak-db-network
+
+
+#        volumes:
+#            - ${DATA_ROOT}:/vdjZ
+
+networks:
+    ak-db-network:
+        name: ak-db-network
+        external: true
