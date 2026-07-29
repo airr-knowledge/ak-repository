@@ -9,6 +9,7 @@ services:
         restart: always
         env_file: ./../../.env
         shm_size: 10gb
+        command: -c max_wal_size=16GB -c min_wal_size=2GB
         volumes:
             - ${DATA_ROOT}/pgdata:/var/lib/postgresql/data
 #            - ${IMPORT_DATA}/ak-data-import:/iedb_data
