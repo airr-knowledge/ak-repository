@@ -12,10 +12,8 @@ services:
         image: airrknowledge/ak-web-api
         networks:
             - ak-db-network
-
-
-#        volumes:
-#            - ${DATA_ROOT}:/vdjZ
+        volumes:
+            - /mnt/data1/akadmin/download:/airrkb_download
 
 networks:
     ak-db-network:
