@@ -8,8 +8,18 @@ services:
         container_name: ak-db
         restart: always
         env_file: ./../../.env
-        shm_size: 10gb
-        command: -c max_wal_size=16GB -c min_wal_size=2GB
+        shm_size: 64gb
+        command: >
+            -c max_wal_size=16GB
+            -c min_wal_size=2GB
+            -c max_worker_processes=32
+            -c max_parallel_workers=32
+            -c max_parallel_workers_per_gather=12
+            -c parallel_tuple_cost=0.01
+            -c parallel_setup_cost=10
+            -c min_parallel_table_scan_size=8MB
+            -c shared_buffers=512GB
+            -c effective_cache_size=750GB
         volumes:
             - ${DATA_ROOT}/pgdata:/var/lib/postgresql/data
 #            - ${IMPORT_DATA}/ak-data-import:/iedb_data
@@ -21,6 +31,10 @@ services:
             interval: 10s
             timeout: 3s
             retries: 3
+        deploy:
+            resources:
+                limits:
+                    memory: 900gb
 
     adminer:
         image: adminer
